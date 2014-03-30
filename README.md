@@ -1,5 +1,4 @@
 #gdb-memstr
-==========
 
 ###Description
 
