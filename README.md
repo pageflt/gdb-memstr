@@ -80,4 +80,4 @@ STR = [
 
 ###Thanks
 
-Thanks to [argp]("https://twitter.com/_argp") for his input and spreading the word.
+Thanks to [argp](https://twitter.com/_argp) for his input and spreading the word.
