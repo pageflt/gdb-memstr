@@ -1,60 +1,8 @@
-# memstr.py
-# 
-# A GDB extension which, given a string and a list of ELF sections, attemps
-# to build a list of memory addresses in the specified sections corresponding
-# to each character of that string.
+# GDB extension for automating the task of assembling arbitrary 
+# ASCII strings out of the bytes that constitute an ELF binary.
+# Check README for more info.
 #
-# This list can be used in ret2libc attacks by chaining strcpy/memcpy/sprintf/etc
-# calls in order to write arbitrary strings to fixed memory segments, in order
-# to eventually pass as arguments when returning to system/execve/whatever.
-#
-# Example usage:
-#
-# (gdb) memstr "/bin/nc.traditional -lp31337 -e/bin/sh" bss,data,text
-# STR = [
-#         struct.pack('<I', 0x8049a4d),   # /
-#         struct.pack('<I', 0x8049c45),   # b
-#         struct.pack('<I', 0x804b823),   # i
-#         struct.pack('<I', 0x804a0ce),   # n
-#         struct.pack('<I', 0x8049a4d),   # /
-#         struct.pack('<I', 0x804a0ce),   # n
-#         struct.pack('<I', 0x804bb92),   # c
-#         struct.pack('<I', 0x804bcdc),   # .
-#         struct.pack('<I', 0x8049ab6),   # t
-#         struct.pack('<I', 0x8049aa6),   # r
-#         struct.pack('<I', 0x804e3fb),   # a
-#         struct.pack('<I', 0x8049f78),   # d
-#         struct.pack('<I', 0x804b823),   # i
-#         struct.pack('<I', 0x8049ab6),   # t
-#         struct.pack('<I', 0x804b823),   # i
-#         struct.pack('<I', 0x804a33c),   # o
-#         struct.pack('<I', 0x804a0ce),   # n
-#         struct.pack('<I', 0x804e3fb),   # a
-#         struct.pack('<I', 0x804c8b1),   # l
-#         struct.pack('<I', 0x804a00d),   #  
-#         struct.pack('<I', 0x804a3fe),   # -
-#         struct.pack('<I', 0x804c8b1),   # l
-#         struct.pack('<I', 0x804a147),   # p
-#         struct.pack('<I', 0x8049b3a),   # 3
-#         struct.pack('<I', 0x8049a30),   # 1
-#         struct.pack('<I', 0x8049b3a),   # 3
-#         struct.pack('<I', 0x8049b3a),   # 3
-#         struct.pack('<I', 0x80501d5),   # 7
-#         struct.pack('<I', 0x804a00d),   #  
-#         struct.pack('<I', 0x804a3fe),   # -
-#         struct.pack('<I', 0x804a267),   # e
-#         struct.pack('<I', 0x8049a4d),   # /
-#         struct.pack('<I', 0x8049c45),   # b
-#         struct.pack('<I', 0x804b823),   # i
-#         struct.pack('<I', 0x804a0ce),   # n
-#         struct.pack('<I', 0x8049a4d),   # /
-#         struct.pack('<I', 0x8049a88),   # s
-#         struct.pack('<I', 0x8049a3b),   # h
-#         struct.pack('<I', 0x8049a6d)    # \0
-# ]
-#
-#
-# Dimitris Karagasidis, github.com/gatoni
+# @_gatoni
 
 import gdb
 import re
