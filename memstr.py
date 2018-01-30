@@ -1,8 +1,5 @@
-# GDB extension for automating the task of assembling arbitrary 
-# ASCII strings out of the bytes that constitute an ELF binary.
-# Check README for more info.
-#
-# @_gatoni
+# Available under MIT license. Check README.md for help.
+# Dimitris Karagkasidis, https://github.com/pageflt
 
 import gdb
 import re
